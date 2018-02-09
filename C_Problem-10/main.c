@@ -8,7 +8,7 @@ find the sum of all primes below given number
 
 Called with:
 >>> gcc isPrimeScript.c -o primeSum -lm
->>> ./primeSum 2000000
+>>> ./primeSum 2000000git  
 142913828922
 
 Note:

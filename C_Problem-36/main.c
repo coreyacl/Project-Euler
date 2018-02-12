@@ -23,6 +23,8 @@ bool isPol();
 unsigned long long dec2bi();
 double pow(double x, double y);
 double ceil(double x);
+double floor(double x);
+
 
 int main(int argc, char const *argv[]) {
 
@@ -57,23 +59,43 @@ bool isPol(unsigned int x){
     x1 = (int)(x1/2);
     }
 
-    int comp = x; //holds value to reverse it
-    comp = comp >> (int)(diff/2); //gets the second half of bits
-    int rev = (pow(2,(int)diff/2)-comp)-1; //comp supposed to hold the complementary number that has the bits reversed
-    //if((comp-1)%2==0 || (x-1)%2==0){
-    //    return true;
-    //}
-    fprintf(stderr, "%d\n%d\n%d\n",comp,rev,rev^x);
-    int agh = rev^comp;
-    fprintf(stderr, "ahhh %d\n",agh );
-    if(rev ^ comp != 0)
+    int shift = 0;
+
+    if(diff%2==0){ //shift deals with odd length binary numbers
+        shift = 0;
+    } else {
+        shift = 1;
+    }
+    //THIS WORKS
+    int f2 = x; //holds value to reverse it
+    f2 = f2 >> (int)(diff/2); //gets the second half of bits
+
+    //THIS WORKS
+    int f1 = x;
+    f1 = (f2 << (int)(diff/2)) ^ f1;//gets the first half of bits
+
+    f2 = f2 >> shift;
+
+    //THIS DOES NOT WORK...YET
+    int rev = (f2- pow(2,(int)diff/2-1)); //f2 supposed to hold the f2lementary number that has the bits reversed
+
+    unsigned long long aa = dec2bi(x);
+    unsigned long long a = dec2bi(f2);
+    unsigned long long b = dec2bi(f1);
+    unsigned long long c = dec2bi(rev);
+
+    fprintf(stderr, "%d : %llu\n \
+%d : %llu\n \
+%d : %llu\n \
+%d : %llu\n ",(int)x,aa,f2,a,f1,b,rev,c);
+
+    if(rev ^ f1 != 0)
     {
         //fprintf(stderr, "what");
         return false;
+    } else {
+        return true;
     }
-
-
-    return true;
 }
 
 unsigned long long dec2bi(int x){
